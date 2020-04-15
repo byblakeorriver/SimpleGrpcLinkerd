@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "scalapb/scalapb.proto";
+option java_package = "com.byblakorriver.countforme";
+
+package com.byblakeorriver.countforme.count;
+
+message CountRequest{}
+
+message CountResponse{
+    int64 number = 1;
+}
+
+service CountForMe{
+    rpc count (CountRequest) returns (stream CountResponse){}
+}

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: count-client
+  labels:
+    app: count-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: count-client
+  template:
+    metadata:
+      annotations:
+        config.linkerd.io/proxy-log-level: linkerd=trace,h2=debug,hyper=debug,warn
+        config.linkerd.io/proxy-version: edge-20.3.4
+        linkerd.io/inject: enabled
+      labels:
+        app: count-client
+    spec:
+      containers:
+        - name: count-client
+          image: "byblakeorriver/countclient:1.0.3"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            exec:
+              command:
+                - "echo"
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 20
+          readinessProbe:
+            exec:
+              command:
+                - "echo"
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 20

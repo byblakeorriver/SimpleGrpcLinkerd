@@ -1,0 +1,72 @@
+plugins {
+    id "scala"
+    id "com.google.protobuf"
+}
+def scalapbVersion = '0.9.6'
+archivesBaseName = "grpc-scala"
+
+sourceSets {
+    main{
+        proto{
+            srcDir 'proto'
+        }
+
+        scala{
+            srcDirs =[ "$buildDir/generated/source/proto/main/scalapb","src/main/scala"]
+        }
+    }
+}
+
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.12.6'
+    compile "com.thesamet.scalapb:scalapb-runtime_2.12:${scalapbVersion}"
+    compile "com.thesamet.scalapb:scalapb-runtime-grpc_2.12:${scalapbVersion}"
+    compile "io.grpc:grpc-netty:1.27.0"
+    compile "io.grpc:grpc-protobuf:1.27.0"
+    compile "io.grpc:grpc-stub:1.27.0"
+    compile "io.grpc:grpc-services:1.27.0"
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.scalatest:scalatest_2.12:3.0.5'
+    testRuntime 'org.scala-lang.modules:scala-xml_2.12:1.1.0'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.7.1'
+    }
+    plugins {
+        scalapb {
+            artifact = (org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) ?
+                    "com.thesamet.scalapb:protoc-gen-scala:${scalapbVersion}:windows@bat" :
+                    "com.thesamet.scalapb:protoc-gen-scala:${scalapbVersion}:unix@sh"
+        }
+    }
+
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // if you don't want java code to be generated.
+                remove java
+                remove compileJava
+            }
+            task.plugins {
+                scalapb {
+                    // option 'flat_package'
+                    option 'grpc'
+                }
+            }
+        }
+    }
+}
+
+compileJava.enabled = false
+compileTestJava.enabled = false
+
+compileScala{
+    dependsOn{
+        generateProto
+    }
+}
+
+tasks.build.dependsOn compileScala

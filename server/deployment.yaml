@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: count-server
+  labels:
+    app: count-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: count-server
+  template:
+    metadata:
+      labels:
+        app: count-server
+    spec:
+      containers:
+        - name: server
+          image: "byblakeorriver/countserver:1.0.3"
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+          livenessProbe:
+            exec:
+              command:
+              - "echo"
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 20
+          readinessProbe:
+            exec:
+              command:
+              - "echo"
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 20

@@ -1,0 +1,15 @@
+plugins {
+    id ("idea")
+    id "com.google.protobuf"      version "0.8.8" apply false
+    id "com.charlesahunt.scalapb" version "1.2.4" apply false
+}
+
+allprojects {
+    repositories {
+        maven {
+            url = "https://repo1.maven.org/maven2/"
+        }
+    }
+
+    apply plugin: "idea"
+}

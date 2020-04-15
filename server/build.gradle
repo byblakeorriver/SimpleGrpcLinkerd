@@ -1,0 +1,18 @@
+plugins {
+    id "scala"
+}
+
+apply plugin: 'scala'
+apply plugin: "application"
+
+group = 'com.byblakeorriver'
+mainClassName = "com.byblakeorriver.CountServer"
+
+dependencies {
+    compile project(":grpc")
+    compile 'org.scala-lang:scala-library:2.12.6'
+    compile "org.scala-lang:scala-compiler:2.12.6"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+    implementation "com.typesafe.scala-logging:scala-logging_2.12:3.9.0"
+    implementation "io.monix:monix_2.12:3.1.0"
+}
