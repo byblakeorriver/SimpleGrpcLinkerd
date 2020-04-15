@@ -1,6 +1,6 @@
-#Simple gRPC Client and Server
+# Simple gRPC Client and Server
 
-##Requirements
+## Requirements
 kubectl
 
 docker
@@ -13,7 +13,7 @@ A linkerd-controller and linkerd-proxy injector running.
 
 Linux or Mac OS
 
-##Configurations
+## Configurations
 
 This is very thrown together. 
 
@@ -28,7 +28,7 @@ The same will need to happen in `server/deployment.yaml`.
 To disable linkerd change `spec.template.metadata.annotations.linkerd.io/inject` to `disabled`
 in `client/deployment.yaml`.
 
-##Running
+## Running
 
 To run: `./runme.sh`
 To uninstall from kubernetes: `./uninstall.sh`
