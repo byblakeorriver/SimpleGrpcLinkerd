@@ -1,15 +1,5 @@
 rootProject.name = 'SimpleGrpcLinkerd'
 
-//fileTree("${rootProject.projectDir}").visit{ FileVisitDetails visit->
-//    if((visit.file.name == "build.gradle") && visit.file.parentFile.name != rootProject.projectDir.name)
-//    {   def path = visit.file.parentFile.path
-//            .replace(rootProject.projectDir.path,"")
-//            .replace("/",":")
-//        include path
-//        project(path).projectDir = visit.file.parentFile
-//    }
-//}
-
 include ("server")
 include ("client")
 include ("grpc")
